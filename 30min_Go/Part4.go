@@ -107,10 +107,47 @@ func array_slice() {
 	printSlice(test2)
 	printSlice(st1)
 	printSlice(st3)
-	fmtPrintln("슬라이스는 원래꺼에서 레퍼런스 걸리니까 주의할것")
+	fmt.Println("슬라이스는 원래꺼에서 레퍼런스 걸리니까 주의할것")
+
+	for i, v := range st3 {
+		fmt.Println("for range", i, v)
+	}
+	for i, v := range [3]int{1,2,3} {
+		fmt.Println(i, v)
+	}
+}
+
+func compute(fct func(int64, int64) int64) (ret int64) {
+	ret = fct(2, 5)
+	return ret
+}
+
+func cls() (func(int) int) {
+	var aaa int = 0
+	return func(x int) (int) {
+		aaa += x
+		return aaa
+	}
+}
+
+func function_value_closure() {
+	var test func(int64, int64) int64
+	test = func(x, y int64) int64 {
+		return x*x + y*y
+	}
+	fmt.Println(test(3, 4))
+	fmt.Println(compute(test))
+
+	t1 := cls()
+	var t2 func(int) int = cls()
+
+	fmt.Println(t1(10))
+	fmt.Println(t1(20))
+	fmt.Println(t2(5))
 }
 
 func main() {
-	// Pointer_Struct()
+	Pointer_Struct()
 	array_slice()
+	function_value_closure()
 }
