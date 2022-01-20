@@ -35,6 +35,77 @@ func method_receiver() {
 	p.multiple(10)
 }
 
+func interface_test() {
+	var i1 I = &T{1, 2}
+	fmt.Printf("%p\n", i1)
+	i1.m1(3,4)
+	fmt.Println(i1)
+	i1.m2()
+
+	describe(i1)
+
+	var x X = X{1,2,3,"hello",4}
+	fmt.Println(x)
+	var i2 I = x
+	i2.m1(3,4)
+	fmt.Println(i2)
+	
+
+	var y interface{}
+	y = 42
+	describe_empty(y)
+	y = 1.5
+	describe_empty(y)
+	y = "hello"
+	describe_empty(y)
+	y = true
+	describe_empty(y)
+}
+
+func describe_empty(x interface{}) {
+	fmt.Printf("%p, %v, %T\n", &x, x, x)
+}
+
+func describe(x interface{ m1(int,int); m2() }) {
+	fmt.Printf("%p\n", x)
+}
+
+type I interface {
+	m1(int, int)
+	m2()
+}
+
+type X struct {
+	a, b, c int
+	s string
+	d int
+}
+
+func (x X) m1(p int, q int) {
+	x.a += p
+	x.b += q
+}
+
+func (x X) m2() {
+
+}
+
+type T struct {
+	a, b int
+}
+
+func (t *T) m1(a, b int) {
+	fmt.Printf("%p\n", t)
+	fmt.Println(a, b)
+	t.a += a
+	t.b *= b
+}
+
+func (t *T) m2() {
+	fmt.Printf("%p\n", t)
+}
+
 func main() {
 	method_receiver()
+	interface_test()
 }
