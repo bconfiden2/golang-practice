@@ -80,10 +80,11 @@ func channel_test() {
 func fibonacci(n int, c chan int) {
 	x, y := 0, 1
 	for i := 0 ; i < n ; i++ {
+		// time.Sleep(time.Millisecond * 3)
 		c <- x
 		x, y = y, x+y
 	}
-	close(c)
+	c = nil
 }
 
 func range_close() {
@@ -94,8 +95,32 @@ func range_close() {
 	}
 }
 
+func select_test() {
+	// tick := time.Tick(time.Second * 1)
+	c := make(chan int)
+	go fibonacci(5, c)
+
+	for i := 0 ; i < 15 ; i++ {
+		select {
+		// case <-tick:
+		// 	fmt.Println("1초")
+		case x, ok := <-c:
+			if ok {
+				fmt.Println("값", x)
+			}
+		default:
+			fmt.Println("default!")
+			time.Sleep(time.Millisecond * 10)
+		// default:
+		// 	fmt.Println("0.5초")
+		// 	time.Sleep(time.Millisecond)
+		}
+	}
+}
+
 func main() {
 	// goroutine_test()
 	// channel_test()
-	range_close()
+	// range_close()
+	// select_test()
 }
