@@ -77,7 +77,25 @@ func channel_test() {
 	// time.Sleep(time.Second)
 }
 
+func fibonacci(n int, c chan int) {
+	x, y := 0, 1
+	for i := 0 ; i < n ; i++ {
+		c <- x
+		x, y = y, x+y
+	}
+	close(c)
+}
+
+func range_close() {
+	c := make(chan int)
+	go fibonacci(16, c)
+	for v := range c {
+		fmt.Println(v)
+	}
+}
+
 func main() {
 	// goroutine_test()
-	channel_test()
+	// channel_test()
+	range_close()
 }
