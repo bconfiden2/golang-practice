@@ -1,5 +1,4 @@
 input
-go.mod
 test.go
 bin
 pkg
