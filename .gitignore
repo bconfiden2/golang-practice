@@ -3,3 +3,5 @@ go.mod
 test.go
 bin
 pkg
+*.crt
+*.key
