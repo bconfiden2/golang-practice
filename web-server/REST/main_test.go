@@ -62,7 +62,7 @@ func TestPostHandler(t *testing.T) {
 
 	res = httptest.NewRecorder()
 	req = httptest.NewRequest("GET", "/students/4", nil)
-
+	// 핸들러를 새로 만들 경우 포스트 요청 보냈던 정보가 사라짐
 	mux.ServeHTTP(res, req)
 
 	ast.Equal(http.StatusOK, res.Code)
