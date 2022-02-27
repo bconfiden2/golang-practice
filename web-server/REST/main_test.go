@@ -75,3 +75,26 @@ func TestPostHandler(t *testing.T) {
 	ast.Equal(123, student.Age)
 	ast.Equal(0, student.Score)
 }
+
+func TestDeleteHandler(t *testing.T) {
+	ast := assert.New(t)
+
+	res := httptest.NewRecorder()
+	req := httptest.NewRequest("DELETE", "/students/3", nil)
+
+	mux := MakeWebHandler()
+	mux.ServeHTTP(res, req)
+
+	ast.Equal(http.StatusOK, res.Code)
+
+
+	res = httptest.NewRecorder()
+	req = httptest.NewRequest("GET", "/students", nil)
+	mux.ServeHTTP(res, req)
+
+	ast.Equal(http.StatusOK, res.Code)
+	var list []Student
+	err := json.NewDecoder(res.Body).Decode(&list)
+	ast.Nil(err)
+	ast.Equal(2, len(list))
+}
